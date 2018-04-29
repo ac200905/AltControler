@@ -26,20 +26,4 @@ c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(
 c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(460): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(490): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(491): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-  Compiling...
-  Player.cpp
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\player.h(7): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Object.cpp
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\object.cpp(43): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\object.cpp(44): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\object.cpp(52): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\object.cpp(53): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Main.cpp
-  GraphicsManager.cpp
-  Boss.cpp
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\boss.cpp(33): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\boss.cpp(34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Background.cpp
-  Generating Code...
   MortarGame.vcxproj -> C:\Users\Adrian\Desktop\AltControler\GameProject\MortarGame\Debug\MortarGame.exe

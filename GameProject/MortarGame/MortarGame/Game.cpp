@@ -551,12 +551,6 @@ void Game::render()
 
 	restart->Render();
 
-	
-	for (Boss* currentBoss : bosslist)
-	{
-		currentBoss->Render();
-	}
-
 
 	if (bossHealth < 3 && bosslist.size() == 2)
 	{
@@ -571,6 +565,11 @@ void Game::render()
 	}
 
 	quickEnemy->Render();
+
+	for (Boss* currentBoss : bosslist)
+	{
+		currentBoss->Render();
+	}
 
 	for (Object* currentHeart : heartlist2)
 	{
