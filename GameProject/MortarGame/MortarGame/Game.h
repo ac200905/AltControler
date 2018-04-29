@@ -24,6 +24,8 @@ public:
 
 	float enemySpeed = 0.5;
 
+	float quickEnemySpeed = 2.0;
+
 	float bossSpeed = 0.5;
 
 	bool init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
@@ -67,4 +69,6 @@ private:
 	std::vector<Boss*> bosslist;
 
 	std::vector<Object*> heartlist;
+
+	std::vector<Object*> heartlist2;
 };

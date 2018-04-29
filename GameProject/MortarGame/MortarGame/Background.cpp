@@ -31,7 +31,7 @@ void Background::Update()
 {
 
 
-	sourceRect.h = 640;
+	sourceRect.h = 1024;
 	sourceRect.w = 800;
 	sourceRect.x = 0;
 	sourceRect.y = 0;

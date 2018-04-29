@@ -24,6 +24,7 @@ Background* background;
 Object* redCrosshair;
 Object* heart;
 
+
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
@@ -31,6 +32,7 @@ int numberofenemies = 2;
 int numberofbosses = 0;
 int bossHealth = Globals::bossHealth;
 int xValue = 0;
+int xValue2 = 0;
 
 
 
@@ -118,14 +120,20 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	restart = new Object("Assets/RestartButton.png", 0, 0);
 	redCrosshair = new Object("Assets/CrosshairRed.png", player->xpos, player->ypos);
 
-	quickEnemy = new Enemy("Assets/Boss.png", rand() % 736 + 1, rand() % 40 - 2000);
+	quickEnemy = new Enemy("Assets/Boss.png", rand() % 736 + 1, rand() % 40 - 1500);
 
-	background = new Background("Assets/Grass.png", 0, 0);
+	background = new Background("Assets/Road.png", 0, 0);
 
 	for (int i = 0; i < lives; i++)
 	{
-		heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, 576));
+		heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, Globals::screenHeight - 64));
 		xValue = xValue - 64;
+	}
+
+	for (int i = 0; i < lives; i++)
+	{
+		heartlist2.push_back(new Object("Assets/HeartEmpty.png", 0 - xValue2, Globals::screenHeight - 64));
+		xValue2 = xValue2 - 64;
 	}
 
 	for (int i = 0; i < numberofenemies; i++)
@@ -234,7 +242,7 @@ void Game::update()
 		if (quickEnemy->isPointInside(player->xpos + 32, player->ypos + 32))
 		{
 			quickEnemy->xpos = rand() % 736 + 1;
-			quickEnemy->ypos = -3000;
+			quickEnemy->ypos = -2000;
 			score = score + 2;
 			cout << "Score: " << score << endl;
 		}
@@ -334,11 +342,15 @@ void Game::update()
 			}
 		}
 
+
+		
 		for (int i = 0; i < lives; i++)
 		{
-			heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, 576));
+			heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, Globals::screenHeight - 64));
 			xValue = xValue - 64;
 		}
+
+		quickEnemy = new Enemy("Assets/Boss.png", rand() % 736 + 1, rand() % 40 - 1200);
 			
 		gameOver = false;
 
@@ -355,13 +367,14 @@ void Game::update()
 		}
 
 		quickEnemy->xpos = rand() % 736 + 1;
-		quickEnemy->ypos = rand() % 40 - 3000;
+		quickEnemy->ypos = rand() % 40 - 1200;
 	}
 
 	//change the enemies speed depending on how high the players score is
 	if (score < 3)
 	{
 		enemySpeed = Globals::enemySpeed1;
+		quickEnemySpeed = Globals::quickEnemySpeed1;
 	}
 
 	if ((score >= 3) && (score < 6))
@@ -399,6 +412,7 @@ void Game::update()
 	if ((score >= 12) && (score < 15))
 	{
 		enemySpeed = Globals::enemySpeed5;
+		quickEnemySpeed = Globals::quickEnemySpeed2;
 
 		if (enemylist.size() <= 4)
 		{
@@ -428,7 +442,12 @@ void Game::update()
 		currentHeart->Update();
 	}
 
-	quickEnemy->MoveDown(1.5);
+	for (Object* currentHeart : heartlist2)
+	{
+		currentHeart->Update();
+	}
+
+	quickEnemy->MoveDown(quickEnemySpeed);
 
 	if (lives <= 0)
 	{
@@ -438,7 +457,7 @@ void Game::update()
 	if (quickEnemy->ypos > Globals::screenHeight + 64)
 	{
 		quickEnemy->xpos = rand() % 736 + 1;
-		quickEnemy->ypos = rand() % 40 - 3000;
+		quickEnemy->ypos = rand() % 40 - 1200;
 		lives--;
 		cout << "Lives left: " << lives - 1 << endl;
 
@@ -552,6 +571,11 @@ void Game::render()
 	}
 
 	quickEnemy->Render();
+
+	for (Object* currentHeart : heartlist2)
+	{
+		currentHeart->Render();
+	}
 
 	for (Object* currentHeart : heartlist)
 	{

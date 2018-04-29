@@ -5,7 +5,7 @@
 namespace Globals
 {
 	const int screenWidth = 800;
-	const int screenHeight = 640;
+	const int screenHeight = 1024;
 	
 	const int bossHealth = 5 * 2;
 
@@ -18,6 +18,9 @@ namespace Globals
 	const float enemySpeed5 = 1.5;
 	const float enemySpeed6 = 1.5;
 	const float enemySpeed7 = 2.5;
+
+	const float quickEnemySpeed1 = 2;
+	const float quickEnemySpeed2 = 3;
 
 	const int lives = 5;
 
