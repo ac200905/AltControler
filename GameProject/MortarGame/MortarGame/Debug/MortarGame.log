@@ -1,15 +1,18 @@
 ﻿  Game.cpp
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\player.h(7): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(55): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(119): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(188): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(249): warning C4018: '>': signed/unsigned mismatch
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(254): warning C4018: '>': signed/unsigned mismatch
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(269): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(275): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(290): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(301): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(318): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(333): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\adrian\desktop\comp140-gam160-game\gameproject\mortargame\mortargame\game.cpp(355): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  MortarGame.vcxproj -> C:\Users\Adrian\Desktop\comp140-gam160-game\GameProject\MortarGame\Debug\MortarGame.exe
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\player.h(7): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(57): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(127): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(196): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(251): warning C4018: '>': signed/unsigned mismatch
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(262): warning C4018: '>': signed/unsigned mismatch
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(267): warning C4018: '>': signed/unsigned mismatch
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(294): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(303): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(309): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(324): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(335): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(352): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(367): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\adrian\desktop\altcontroler\gameproject\mortargame\mortargame\game.cpp(393): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  MortarGame.vcxproj -> C:\Users\Adrian\Desktop\AltControler\GameProject\MortarGame\Debug\MortarGame.exe

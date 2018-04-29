@@ -64,4 +64,6 @@ private:
 	std::vector<Enemy*> enemylist;
 
 	std::vector<Boss*> bosslist;
+
+	std::vector<Object*> heartlist;
 };

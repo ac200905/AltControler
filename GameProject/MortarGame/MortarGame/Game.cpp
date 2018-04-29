@@ -20,6 +20,7 @@ Object* explosion;
 Object* restart;
 Background* background;
 Object* redCrosshair;
+Object* heart;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -27,6 +28,7 @@ SDL_Event Game::event;
 int numberofenemies = 2;
 int numberofbosses = 1;
 int bossHealth = 2;
+int xValue = 0;
 
 
 /*
@@ -113,6 +115,12 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	redCrosshair = new Object("Assets/CrosshairRed.png", player->xpos, player->ypos);
 
 	background = new Background("Assets/Grass.png", 0, 0);
+
+	for (int i = 0; i < lives; i++)
+	{
+		heartlist.push_back(new Object("Assets/Heart.png", 192 - xValue, 576));
+		xValue = xValue + 64;
+	}
 
 	for (int i = 0; i < numberofenemies; i++)
 	{
@@ -240,6 +248,11 @@ void Game::update()
 		player->ypos = -64;
 	}
 
+	if (heartlist.size() > lives)
+	{
+		heartlist.erase(heartlist.begin(), heartlist.begin() + (1));
+	}
+
 	if (gameOver == true)
 	{
 		lives = 4;
@@ -260,6 +273,27 @@ void Game::update()
 		bossSpeed = 1.0;
 		extraEnemies = 0;
 		extraBosses = 0;
+		xValue = 0;
+
+		for (auto iter = heartlist.begin(); iter != heartlist.end(); )
+		{
+			if ((*iter))
+			{
+				delete (*iter);
+				iter = heartlist.erase(iter);
+			}
+
+			else
+			{
+				iter++;
+			}
+		}
+
+		for (int i = 0; i < lives; i++)
+		{
+			heartlist.push_back(new Object("Assets/Heart.png", 192 - xValue, 576));
+			xValue = xValue + 64;
+		}
 			
 		gameOver = false;
 
@@ -335,6 +369,10 @@ void Game::update()
 		}
 	}
 
+	for (Object* currentHeart : heartlist)
+	{
+		currentHeart->Update();
+	}
 
 	// Using the console to show the scoring and lives left.
 	for (Enemy* currentEnemy : enemylist)
@@ -426,6 +464,10 @@ void Game::render()
 		currentEnemy->Render();
 	}
 
+	for (Object* currentHeart : heartlist)
+	{
+		currentHeart->Render();
+	}
 
 	if (player->hasFired())
 	{
@@ -471,6 +513,7 @@ void Game::clean()
 	delete enemy;
 	delete redCrosshair;
 	delete boss;
+	delete heart;
 
 	for (auto iter = enemylist.begin(); iter != enemylist.end(); )
 	{
@@ -485,7 +528,38 @@ void Game::clean()
 			iter++;
 		}
 	}
+
+	for (auto iter = heartlist.begin(); iter != heartlist.end(); )
+	{
+		if ((*iter))
+		{
+			delete (*iter);
+			iter = heartlist.erase(iter);
+		}
+
+		else
+		{
+			iter++;
+		}
+	}
+
+	for (auto iter = bosslist.begin(); iter != bosslist.end(); )
+	{
+		if ((*iter))
+		{
+			delete (*iter);
+			iter = bosslist.erase(iter);
+		}
+
+		else
+		{
+			iter++;
+		}
+	}
+
+	heartlist.clear();
 	enemylist.clear();
+	bosslist.clear();
 	serialInterface->close();
 	cout << "Cleaning SDL \n";
 	SDL_DestroyWindow(mainWindow);
