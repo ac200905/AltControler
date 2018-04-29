@@ -15,6 +15,8 @@ public:
 
 	void StopMoving();
 
+	void Render();
+
 	~Boss();
 };
 

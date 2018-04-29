@@ -6,6 +6,7 @@
 #include <vector>
 #include "Enemy.h"
 #include "Boss.h"
+#include "Globals.h"
 
 class Game
 {
@@ -13,19 +14,17 @@ public:
 	Game();
 	~Game();
 
-
-
 	int extraEnemies = 0;
 
 	int extraBosses = 0;
 
 	int score = 0;
 
-	int lives = 4;
+	int lives = Globals::lives;
 
 	float enemySpeed = 0.5;
 
-	float bossSpeed = 1;
+	float bossSpeed = 0.5;
 
 	bool init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 
@@ -58,6 +57,8 @@ private:
 
 
 	bool isRunning;
+
+	bool keyHasFired = false;
 
 	SerialInterface* serialInterface; //should really be put after SDL runs
 

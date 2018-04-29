@@ -8,13 +8,15 @@
 #include "Boss.h"
 #include <iostream>
 #include <time.h>       /* time */
-
+#include "Globals.h"
+#include <SDL_ttf.h>
 
 using std::cout;
 using std::endl;
 
 Player* player;
 Enemy* enemy;
+Enemy* quickEnemy;
 Boss* boss;
 Object* explosion;
 Object* restart;
@@ -26,9 +28,11 @@ SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
 int numberofenemies = 2;
-int numberofbosses = 1;
-int bossHealth = 2;
+int numberofbosses = 0;
+int bossHealth = Globals::bossHealth;
 int xValue = 0;
+
+
 
 
 /*
@@ -108,28 +112,30 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	//instantiate serial here
 
-	player = new Player("Assets/Crosshair.png", 800 / 2, 640 / 2);
+	player = new Player("Assets/Crosshair.png", Globals::screenWidth / 2 -32, Globals::screenHeight / 2 -32);
 	player->serialInterface = serialInterface;
 	explosion = new Object("Assets/Explosion2.png", player->xpos, player->ypos);
 	restart = new Object("Assets/RestartButton.png", 0, 0);
 	redCrosshair = new Object("Assets/CrosshairRed.png", player->xpos, player->ypos);
 
+	quickEnemy = new Enemy("Assets/Boss.png", rand() % 736 + 1, rand() % 40 - 2000);
+
 	background = new Background("Assets/Grass.png", 0, 0);
 
 	for (int i = 0; i < lives; i++)
 	{
-		heartlist.push_back(new Object("Assets/Heart.png", 192 - xValue, 576));
-		xValue = xValue + 64;
+		heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, 576));
+		xValue = xValue - 64;
 	}
 
 	for (int i = 0; i < numberofenemies; i++)
 	{
-		enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, -64));
+		enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, rand() % 40 -104));
 	}
 
 	for (int i = 0; i < numberofbosses; i++)
 	{
-		bosslist.push_back(new Boss("Assets/Boss.png", 277, -256));
+		bosslist.push_back(new Boss("Assets/Boss2.png", 277, -256));
 	}
 
 	return true;
@@ -153,6 +159,29 @@ void Game::handleEvents()
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			break;
+		case SDL_KEYDOWN:   // Key pressed
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_LEFT:
+				player->xpos = player->xpos - 10;
+				break;
+			case SDLK_RIGHT:
+				player->xpos = player->xpos + 10;
+				break;
+			case SDLK_UP:
+				player->ypos = player->ypos - 10;
+				break;
+			case SDLK_DOWN:
+				player->ypos = player->ypos + 10;
+				break;
+			case SDLK_SPACE:
+				keyHasFired = true;
+
+ 				cout << "should fire" << endl;
+				break;
+
+			}
+			
 		default:
 			break;
 		}
@@ -183,10 +212,13 @@ void Game::update()
 	redCrosshair->xpos = player->xpos;
 	redCrosshair->ypos = player->ypos;
 
+	quickEnemy->Update();
+
 	//if player fires the cannon while intersecting with an enemy, reset that enemy's
 	//position to the top of the screen and increase player score
-	if (player->hasFired())
+	if (player->hasFired() || keyHasFired == true)
 	{
+		
 		cout << "Fired!!!" << endl;
 		for (Enemy* currentEnemy : enemylist)
 		{
@@ -198,11 +230,20 @@ void Game::update()
 				cout << "Score: " << score << endl;
 			}
 		}
+		
+		if (quickEnemy->isPointInside(player->xpos + 32, player->ypos + 32))
+		{
+			quickEnemy->xpos = rand() % 736 + 1;
+			quickEnemy->ypos = -3000;
+			score = score + 2;
+			cout << "Score: " << score << endl;
+		}
 
 		for (Boss* currentBoss : bosslist)
 		{
 			if (currentBoss->isPointInside(player->xpos + 32, player->ypos + 32))
 			{
+				
 				//reduce health of boss
 				if (bossHealth > 0)
 				{
@@ -210,10 +251,14 @@ void Game::update()
 				}
 				if (bossHealth <= 0)
 				{
-					bossHealth = 2;
-					currentBoss->ypos = -256;
-					currentBoss->xpos = 277;
-					score = score + 3;
+					bossHealth = Globals::bossHealth;
+					currentBoss->ypos = -600;
+					currentBoss->xpos = Globals::screenWidth/2 - 256/2;
+					if (bosslist.size() == 1)
+					{
+						bosslist.push_back(new Boss("Assets/Boss2.png", Globals::screenWidth / 2 - 256 / 2, -600));
+					}
+					score = score + 4;
 					cout << "Score: " << score << endl;
 				}
 				
@@ -230,20 +275,20 @@ void Game::update()
 	
 	if (player->xpos < -64)
 	{
-		player->xpos = 800;
+		player->xpos = Globals::screenWidth;
 	}
 
-	if (player->xpos > 800)
+	if (player->xpos > Globals::screenWidth)
 	{
 		player->xpos = -64;
 	}
 
 	if (player->ypos < -64)
 	{
-		player->ypos = 640;
+		player->ypos = Globals::screenHeight;
 	}
 
-	if (player->ypos > 640)
+	if (player->ypos > Globals::screenHeight)
 	{
 		player->ypos = -64;
 	}
@@ -255,7 +300,7 @@ void Game::update()
 
 	if (gameOver == true)
 	{
-		lives = 4;
+		lives = Globals::lives;
 		score = 0;
 		cout << "New Game Started" << endl;
 		cout << "Score: " << score << endl;
@@ -269,8 +314,8 @@ void Game::update()
 			bosslist.erase(bosslist.begin(), bosslist.begin() + extraBosses);
 		}
 
-		enemySpeed = 0.5;
-		bossSpeed = 1.0;
+		enemySpeed = Globals::enemySpeed1;
+		bossSpeed = 0.5;
 		extraEnemies = 0;
 		extraBosses = 0;
 		xValue = 0;
@@ -291,80 +336,89 @@ void Game::update()
 
 		for (int i = 0; i < lives; i++)
 		{
-			heartlist.push_back(new Object("Assets/Heart.png", 192 - xValue, 576));
-			xValue = xValue + 64;
+			heartlist.push_back(new Object("Assets/Heart.png", 0 - xValue, 576));
+			xValue = xValue - 64;
 		}
 			
 		gameOver = false;
 
 		for (Enemy* currentEnemy : enemylist)
 		{
-			currentEnemy->ypos = -64;
 			currentEnemy->xpos = rand() % 736 + 1;
+			currentEnemy->ypos = rand() % 40 - 104;
 		}
 
 		for (Boss* currentBoss : bosslist)
 		{
-			currentBoss->ypos = -64;
 			currentBoss->xpos = rand() % 736 + 1;
+			currentBoss->ypos = rand() % 40 - 104;
 		}
+
+		quickEnemy->xpos = rand() % 736 + 1;
+		quickEnemy->ypos = rand() % 40 - 3000;
 	}
 
 	//change the enemies speed depending on how high the players score is
 	if (score < 3)
 	{
-		enemySpeed = 0.5;
+		enemySpeed = Globals::enemySpeed1;
 	}
 
 	if ((score >= 3) && (score < 6))
 	{
-		enemySpeed = 1.0;
+		enemySpeed = Globals::enemySpeed2;
+
 		if (enemylist.size() <= 2)
 		{
-			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, -64));
+			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, rand() % 40 - 104));
+			
 			extraEnemies++;
 		}
 	}
 
 	if ((score >= 6) && (score < 9))
 	{
-		enemySpeed = 1.5;
-		bossSpeed = 2.0;
+		enemySpeed = Globals::enemySpeed3;
+
 		if (enemylist.size() <= 3)
 		{
-			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, -64));
-			bosslist.push_back(new Boss("Assets/Boss.png", 277, -256));
+			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, rand() % 40 - 104));
+			bosslist.push_back(new Boss("Assets/Boss3.png", Globals::screenWidth / 2 - 256 / 2, -256));
+			bosslist.push_back(new Boss("Assets/Boss2.png", Globals::screenWidth / 2 - 256 / 2, -256));
 			extraEnemies++;
+			extraBosses++;
 			extraBosses++;
 		}
 	}
 
 	if ((score >= 9) && (score < 12))
 	{
-		enemySpeed = 2.0;
+		enemySpeed = Globals::enemySpeed4;
 	}
 
 	if ((score >= 12) && (score < 15))
 	{
-		enemySpeed = 2.5;
+		enemySpeed = Globals::enemySpeed5;
+
 		if (enemylist.size() <= 4)
 		{
-			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, -64));
+			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, rand() % 40 - 104));
 			extraEnemies++;
 		}
 	}
 
 	if ((score >= 15) && (score < 18))
 	{
-		enemySpeed = 3.0;
+		enemySpeed = Globals::enemySpeed6;
 	}
 
 	if (score >= 18)
 	{
-		enemySpeed = 3.5;
+		enemySpeed = Globals::enemySpeed7;
+
 		if (enemylist.size() <= 5)
 		{
-			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, -64));
+			enemylist.push_back(new Enemy("Assets/Enemy.png", rand() % 736 + 1, rand() % 40 - 104));
 			extraEnemies++;
 		}
 	}
@@ -374,28 +428,53 @@ void Game::update()
 		currentHeart->Update();
 	}
 
+	quickEnemy->MoveDown(1.5);
+
+	if (lives <= 0)
+	{
+		quickEnemy->StopMoving();
+	}
+
+	if (quickEnemy->ypos > Globals::screenHeight + 64)
+	{
+		quickEnemy->xpos = rand() % 736 + 1;
+		quickEnemy->ypos = rand() % 40 - 3000;
+		lives--;
+		cout << "Lives left: " << lives - 1 << endl;
+
+		//end of game, show final score
+		if (lives <= 0)
+		{
+			cout << "Game Over!" << endl;
+			cout << "Final Score: " << score << endl;
+			score = 0;
+			SDL_Delay(3000);
+			gameOver = true;
+		}
+	}
+
 	// Using the console to show the scoring and lives left.
 	for (Enemy* currentEnemy : enemylist)
 	{
 		currentEnemy->MoveDown(enemySpeed);
 		
 		//at end of game stop all enemies
-		if (lives == 0)
+		if (lives <= 0)
 		{
 			currentEnemy->StopMoving();
 		}
 
 		//respawn the enemy at the top of the screen if the player misses it and
 		//lower the players number of lives by one 
-		if (currentEnemy->ypos > 704)
+		if (currentEnemy->ypos > Globals::screenHeight + 64)
 		{
-			currentEnemy->ypos = -64;
 			currentEnemy->xpos = rand() % 736 + 1;
+			currentEnemy->ypos = rand() % 40 - 104;
 			lives--;
 			cout << "Lives left: " << lives - 1 << endl;
 
 			//end of game, show final score
-			if (lives == 0)
+			if (lives <= 0)
 			{
 				cout << "Game Over!" << endl;
 				cout << "Final Score: " << score << endl;
@@ -411,7 +490,7 @@ void Game::update()
 		currentBoss->MoveDown(bossSpeed);
 
 		//at end of game stop all enemies
-		if (lives == 0)
+		if (lives <= 0)
 		{
 			currentBoss->StopMoving();
 		}
@@ -420,13 +499,13 @@ void Game::update()
 		//lower the players number of lives by one 
 		if (currentBoss->ypos > 896)
 		{
-			currentBoss->ypos = -256;
-			currentBoss->xpos = 277;
-			lives--;
+			currentBoss->ypos = -600;
+			currentBoss->xpos = Globals::screenWidth / 2 - 256 / 2;
+			lives = lives - 2;
 			cout << "Lives left: " << lives - 1 << endl;
 
 			//end of game, show final score
-			if (lives == 0)
+			if (lives <= 0)
 			{
 				cout << "Game Over!" << endl;
 				cout << "Final Score: " << score << endl;
@@ -453,10 +532,18 @@ void Game::render()
 
 	restart->Render();
 
+	
 	for (Boss* currentBoss : bosslist)
 	{
 		currentBoss->Render();
 	}
+
+
+	if (bossHealth < 3 && bosslist.size() == 2)
+	{
+		bosslist.pop_back();
+	}
+
 
 	//render enemies from vector
 	for (Enemy* currentEnemy : enemylist)
@@ -464,14 +551,17 @@ void Game::render()
 		currentEnemy->Render();
 	}
 
+	quickEnemy->Render();
+
 	for (Object* currentHeart : heartlist)
 	{
 		currentHeart->Render();
 	}
 
-	if (player->hasFired())
+	if (player->hasFired() || keyHasFired == true)
 	{
 		explosion->Render();
+		keyHasFired = false;
 	}
 
 
@@ -494,6 +584,11 @@ void Game::render()
 		}
 	}
 
+	if (quickEnemy->isPointInside(player->xpos + 32, player->ypos + 32))
+	{
+		redCrosshair->Render();
+	}
+
 	// render new frame
 	SDL_RenderPresent(renderer);
 }
@@ -514,6 +609,7 @@ void Game::clean()
 	delete redCrosshair;
 	delete boss;
 	delete heart;
+	delete quickEnemy;
 
 	for (auto iter = enemylist.begin(); iter != enemylist.end(); )
 	{

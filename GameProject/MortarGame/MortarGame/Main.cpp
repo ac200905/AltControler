@@ -5,11 +5,11 @@
 #include "Game.h"
 #include "stdafx.h"
 #include <stdio.h>
+#include "Globals.h"
 
 Game* game = 0;
 
-int screenWidth = 800;
-int screenHeight = 640;
+
 
 
 int main(int argc, char* argv[])
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	game = new Game();
 
 	// initialise the game
-	game->init("Mortar Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, false);
+	game->init("Mortar Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Globals::screenWidth, Globals::screenHeight, false);
 
 	// create a game loop
 	while (game->running())

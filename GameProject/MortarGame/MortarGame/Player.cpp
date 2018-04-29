@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Object.h"
-
+#include "Globals.h"
 
 
 Player::Player()
@@ -53,6 +53,7 @@ bool Player::hasFired()
 	}
 	return false;
 }
+
 
 Player::~Player()
 {

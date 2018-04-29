@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\libraries\serial\include;..\libraries\SDL2-2.0.7\include;..\libraries\SDL2_image-2.0.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libraries\SDL2_image-2.0.3\lib\x86;..\libraries\SDL2-2.0.7\lib\x86;..\libraries\serial\visual_studio\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\libraries\serial\include;..\libraries\SDL2-2.0.7\include;..\libraries\SDL2_ttf-2.0.14\include;..\libraries\SDL2_image-2.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libraries\SDL2_ttf-2.0.14\lib\x86;..\libraries\SDL2_image-2.0.3\lib\x86;..\libraries\SDL2-2.0.7\lib\x86;..\libraries\serial\visual_studio\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -81,7 +81,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;serial.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;serial.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -139,6 +139,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />

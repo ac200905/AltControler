@@ -1,22 +1,29 @@
 #include "Boss.h"
 #include "Object.h"
+#include "GraphicsManager.h"
 
 
 
 Boss::Boss()
 {
+	xpos = 0;
+	ypos = 0;
+	objTexture = nullptr;
 
 }
 
-Boss::Boss(const char * texturesheet, float x, float y) :Object(texturesheet, x, y)
+Boss::Boss(const char * texturesheet, float x, float y) 
 {
+	objTexture = GraphicsManager::LoadImage(texturesheet);
 
+	xpos = x;
+	ypos = y;
 }
 
 
 void Boss::Update()
 {
-	Object::Update();
+	//Object::Update();
 
 	sourceRect.h = 256;
 	sourceRect.w = 256;
@@ -32,7 +39,7 @@ void Boss::Update()
 //function to move enemy down the screen
 void Boss::MoveDown(float speed)
 {
-	Object::Update();
+	Boss::Update();
 
 	ypos = ypos + speed;
 }
@@ -46,6 +53,11 @@ void Boss::StopMoving()
 	ypos = -256;
 }
 
+void Boss::Render()
+{
+	//SDL_SetTextureColorMod(objTexture, 255, 0, 0);
+	SDL_RenderCopy(Game::renderer, objTexture, &sourceRect, &destRect);
+}
 
 Boss::~Boss()
 {

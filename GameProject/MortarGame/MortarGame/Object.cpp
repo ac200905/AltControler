@@ -18,10 +18,6 @@ Object::Object()
 	ypos = 0;
 	objTexture = nullptr;
 
-	
-
-
-
 }
 
 Object::~Object()
